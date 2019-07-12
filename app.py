@@ -7,6 +7,7 @@ app = Flask(__name__)
 # 得到token
 @app.route('/gettoken', methods=['GET', 'POST'])
 def gettoken():
+    # 112
     req = request.json
     print(req)
     websiteURL = req['websiteURL']
