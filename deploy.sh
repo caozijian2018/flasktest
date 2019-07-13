@@ -5,4 +5,4 @@ pip3 install -r requirements.txt
 #python src/manage.py migrate --settings=settings.prod
 #
 supervisorctl restart all
-#sudo service nginx reload
+sudo service nginx reload
