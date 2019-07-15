@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 import requests
+import json
 
 app = Flask(__name__)
 
@@ -35,6 +36,19 @@ app = Flask(__name__)
 @app.route('/')
 def static_views():
     return render_template('ii.html')
+
+
+@app.route('/gettoken', methods=['GET', 'POST'])
+def gettoken():
+    data = request.json
+    token = data.get("token", "")
+    key = data.get("key", "")
+    vaify_url = "https://www.google.com/recaptcha/api/siteverify"
+    res = requests.post(vaify_url,
+                        data={"secret": "6LefJa0UAAAAANhH9-OH7A-o1BoWNUQMZ0x82L7P", "response": token,
+                              "remoteip": "123"})
+    res
+    return json.dumps({"code": 1, "msg": "success"})
 
 
 if __name__ == '__main__':
