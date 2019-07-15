@@ -1,3 +1,4 @@
+#!/bin/bash
 git pull
 source /flasktest/venv/bin/activate
 pip3 install -r requirements.txt
