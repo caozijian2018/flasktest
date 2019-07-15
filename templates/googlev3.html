@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v3 demo</title>
+    <script src='https://www.google.com/recaptcha/api.js?render=6LefJa0UAAAAAOB06AdDI0L7krmqGle-gdob4WDw'></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6LefJa0UAAAAAOB06AdDI0L7krmqGle-gdob4WDw', {action: 'homepage'})
+                .then(function (token) {
+                    console.log(token);
+                    fetch('/gettoken/?g-recaptcha-response=' + token).then(function (response) {
+                        response.json().then(function (data) {
+                            console.log(data);
+                            console.log(data["score"]);
+                            if (data["score"] < 0.7) {
+                                window.location = "https://www.google.com?a=aaa";
+                            } else {
+                                document.getElementById('myBtnt').disabled = false;
+                            }
+                        });
+
+                    });
+                }).catch(function (res) {
+                    console.log(33333)
+                    console.log(res)
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <button type="submit" onclick="this.disabled=true;jump2baidu();" class="btn btn-block btn-success"
+            style="min-width:70px;background-color:#ff6600;border-color:#ff6600" name="resp" value="Y" id="myBtnt"
+            disabled="">สมัคร
+    </button>
+
+<script>
+    document.getElementById('myBtnt').disabled = true;
+</script>
+    <script>
+        function jump2baidu() {
+            window.location = "https://www.baidu.com?a=aaa";
+        }
+    </script>
+</body>
+</html>
