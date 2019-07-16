@@ -19,9 +19,10 @@ def gettoken():
     data = {"secret": "6LefJa0UAAAAANhH9-OH7A-o1BoWNUQMZ0x82L7P", "response": token,
                               "remoteip": ip}
 
-    logging.info(str(data))
+    logging.info("data.{}".format(str(data)))
     res = requests.post(url=vaify_url, data=data).json()
-    logging.info(str(res))
+    logging.info("返回.{}".format(str(res)))
+
     return json.dumps({"code": 1, "msg": "success"})
 
 if __name__ == '__main__':
