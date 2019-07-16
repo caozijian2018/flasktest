@@ -1,55 +1,41 @@
 from flask import Flask, request, render_template
 import requests
 import json
-
+import logging
 app = Flask(__name__)
+# 设置log
+handler = logging.FileHandler('./logs/flask.log', encoding='UTF-8')
+handler.setLevel(logging.INFO)
+logging_format = logging.Formatter(
+    '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
+handler.setFormatter(logging_format)
+app.logger.addHandler(handler)
 
-
-# # 得到token
-# @app.route('/gettoken', methods=['GET', 'POST'])
-# def gettoken():
-#     # req = request.json
-#     # print(req)
-#     # websiteURL = req['websiteURL']
-#     # websiteKey = req['websiteKey']
-#     # pageAction = req.get('pageAction', None)
-#     # res = requests.post("http://api.anti-captcha.com/createTask",
-#     #                     data={"clientKey": "2430681487daa93cd7a0490504f54af5", "task": {
-#     #                         "type": "RecaptchaV3TaskProxyless",
-#     #                         "websiteURL": websiteURL,
-#     #                         "websiteKey": websiteKey,
-#     #                         "pageAction": pageAction
-#     #                     }})
-#     # return res.text
-#     secret = "2430681487daa93cd7a0490504f54af5"
-#     url = "https://www.google.com/recaptcha/api/siteverify"
-#     response = request.GET.get("g-recaptcha-response")
-#
-#     if request.META.get("HTTP_X_FORWARDED_FOR", None):
-#         ip = request.META['HTTP_X_FORWARDED_FOR']
-#     else:
-#         ip = request.META.get("REMOTE_ADDR", "")
-#
-#     resp = requests.post(url=url, data={"secret": secret, "response": response, "remoteip": ip}).json()
-#     return resp
-
+print(999)
 @app.route('/')
 def static_views():
+    # logging.info("laoziziziz")
+    app.logger.info("my first logging")
+    print(123123444123)
     return render_template('ii.html')
 
 
 @app.route('/gettoken', methods=['GET', 'POST'])
 def gettoken():
+    ip = request.remote_addr
     data = request.json
     token = data.get("token", "")
-    key = data.get("key", "")
     vaify_url = "https://www.google.com/recaptcha/api/siteverify"
-    res = requests.post(vaify_url,
-                        data={"secret": "6LefJa0UAAAAANhH9-OH7A-o1BoWNUQMZ0x82L7P", "response": token,
-                              "remoteip": "123"})
-    res
-    return json.dumps({"code": 1, "msg": "success"})
+    data = {"secret": "6LefJa0UAAAAANhH9-OH7A-o1BoWNUQMZ0x82L7P", "response": token,
+                              "remoteip": ip}
 
+    app.logger.info(str(data))
+    res = requests.post(vaify_url,
+                        data=data)
+    app.logger.info(str(res))
+    return json.dumps({"code": 1, "msg": "success"})
 
 if __name__ == '__main__':
     app.run()
+
+
