@@ -12,7 +12,10 @@ def static_views():
 
 @app.route('/gettoken', methods=['GET', 'POST'])
 def gettoken():
-    ip = request.remote_addr
+    if 'HTTP_X_FORWARDED_FOR' in request.META:
+        ip = request.META['HTTP_X_FORWARDED_FOR']
+    else:
+        ip = request.META['REMOTE_ADDR']
     data = request.values
     token = data.get("token", "")
     vaify_url = "https://www.google.com/recaptcha/api/siteverify"
