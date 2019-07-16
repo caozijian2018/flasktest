@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, make_response
+from flask import Flask, request, render_template, make_response, jsonify
 import requests
 import json
 import logging
@@ -24,7 +24,7 @@ def gettoken():
     # root:INFO:返回.{'success': True, 'score': 0.9, 'hostname': 'static.humorboom.com', 'challenge_ts': '2019-07-16T09:16:04Z', 'action': 'homepage'}
     logging.info("返回.{}".format(str(res)))
 
-    return make_response(res)
+    return jsonify(res)
 
 if __name__ == '__main__':
     app.run()
