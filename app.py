@@ -3,13 +3,8 @@ import requests
 import json
 import logging
 app = Flask(__name__)
+logging.basicConfig(filename="./logs/test.log", filemode="w", format="%(asctime)s %(name)s:%(levelname)s:%(message)s", datefmt="%d-%M-%Y %H:%M:%S", level=logging.DEBUG)
 # 设置log
-handler = logging.FileHandler('./logs/flask.log', encoding='UTF-8')
-handler.setLevel(logging.INFO)
-logging_format = logging.Formatter(
-    '%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
-handler.setFormatter(logging_format)
-app.logger.addHandler(handler)
 @app.route('/')
 def static_views():
     return render_template('ii.html')
@@ -17,10 +12,6 @@ def static_views():
 
 @app.route('/gettoken', methods=['GET', 'POST'])
 def gettoken():
-    # if request.META.get("HTTP_X_FORWARDED_FOR", None):
-    #     ip = request.META['HTTP_X_FORWARDED_FOR']
-    # else:
-    #     ip = request.META.get("REMOTE_ADDR", "")
     ip = request.remote_addr
     data = request.values
     token = data.get("token", "")
@@ -28,9 +19,9 @@ def gettoken():
     data = {"secret": "6LefJa0UAAAAANhH9-OH7A-o1BoWNUQMZ0x82L7P", "response": token,
                               "remoteip": ip}
 
-    app.logger.info(str(data))
-    res = requests.post(url=vaify_url, data=data)
-    app.logger.info(str(res))
+    logging.info(str(data))
+    res = requests.post(url=vaify_url, data=data).json()
+    logging.info(str(res))
     return json.dumps({"code": 1, "msg": "success"})
 
 if __name__ == '__main__':
