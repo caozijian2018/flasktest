@@ -21,9 +21,10 @@ def gettoken():
 
     logging.info("data.{}".format(str(data)))
     res = requests.post(url=vaify_url, data=data).json()
+    # root:INFO:返回.{'success': True, 'score': 0.9, 'hostname': 'static.humorboom.com', 'challenge_ts': '2019-07-16T09:16:04Z', 'action': 'homepage'}
     logging.info("返回.{}".format(str(res)))
 
-    return json.dumps({"code": 1, "msg": "success"})
+    return json.dumps(res)
 
 if __name__ == '__main__':
     app.run()
