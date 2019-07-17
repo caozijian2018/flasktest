@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, make_response, jsonify
+from flask import Flask, request, render_template, make_response, jsonify, Response
 import requests
 import json
 import logging
@@ -47,13 +47,12 @@ def getantitoken():
 def get2captchaid():
     data = request.values
     min_score = data.get('min_score', '0.3')
-    pageurl = data.get('pageurl', '')
-
+    pageurl = data.get('pageurl', "http://static.humorboom.com/testv3/index.html")
     url = "http://2captcha.com/in.php"
     data = {"key": "46f989bbda665e16b138119bd15c140e",
             "method": "userrecaptcha",
             "googlekey": "6LefJa0UAAAAAOB06AdDI0L7krmqGle-gdob4WDw",
-            "pageurl": "http://static.humorboom.com/testv3/index.html",
+            "pageurl": pageurl,
             "version": "v3",
             "action": 'verify',
             "min_score": min_score
@@ -74,9 +73,9 @@ def get2captcharesult():
         "json": 1,
         "id": taskid
     }
-    res = requests.get(url=url, data=data).json()
+    res = requests.post(url=url, data=data).json()
     logging.info("ANTItoken{}".format(str(res)))
-    return jsonify(res)
+    return json.dumps(res)
 
 
 if __name__ == '__main__':
