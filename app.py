@@ -75,7 +75,7 @@ def get2captcharesult():
     }
     res = requests.post(url=url, data=data).json()
     logging.info("ANTItoken{}".format(str(res)))
-    return json.dumps(res)
+    return jsonify(res)
 
 
 if __name__ == '__main__':
