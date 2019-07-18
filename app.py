@@ -51,6 +51,7 @@ def getantitoken():
     }}
     res = requests.post(url=url, data=data).json()
     logging.info("ANTItoken{}".format(str(res)))
+    return jsonify(res)
 
 @app.route('/getantires', methods=['POST'])
 def getanires():
