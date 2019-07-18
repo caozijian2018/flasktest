@@ -31,27 +31,51 @@ def gettoken():
 
 @app.route('/getantitoken', methods=['POST'])
 def getantitoken():
+    #    clientkey  "2430681487daa93cd7a0490504f54af5",
+    #    websitekey "6LefJa0UAAAAAOB06AdDI0L7krmqGle-gdob4WDw",
+    data = request.values
+    pageurl = data.get('pageurl', '')
+    min_score = data.get('min_score', 0.3)
+    clientKey = data.get('client_key', '')
+    websitekey = data.get('website_key', '')
+    pageAction = data.get('action', '')
+
+
     url = "http://api.anti-captcha.com/createTask"
-    data = {"clientKey": "2430681487daa93cd7a0490504f54af5", "task": {
+    data = {"clientKey": clientKey, "task": {
         "type": "RecaptchaV3TaskProxyless",
-        "websiteURL": "http://static.humorboom.com/testv3/index.html",
-        "websiteKey": "6LefJa0UAAAAAOB06AdDI0L7krmqGle-gdob4WDw",
-        "minScore": 0.3,
-        "pageAction": "homepage"
+        "websiteURL": pageurl,
+        "websiteKey": websitekey,
+        "minScore": min_score,
+        "pageAction": pageAction
     }}
     res = requests.post(url=url, data=data).json()
     logging.info("ANTItoken{}".format(str(res)))
 
+@app.route('/getantires', methods=['POST'])
+def getanires():
+    #     "2430681487daa93cd7a0490504f54af5",
+    url = "https://api.anti-captcha.com/getTaskResult"
+    data = request.values
+    clientKey = data.get('client_key', '')
+    taskId = data.get('taskid', '')
+    data = {"clientKey": clientKey, taskId: taskId}
+    res = requests.post(url=url, data=data).json()
+    return jsonify(res)
+
 
 @app.route('/get2captchaid', methods=['POST'])
 def get2captchaid():
+    #  key 46f989bbda665e16b138119bd15c140e
     data = request.values
     min_score = data.get('min_score', '0.3')
+    key = data.get('key', '')
+    googlekey = data.get('googlekey', '')
     pageurl = data.get('pageurl', "http://static.humorboom.com/testv3/index.html")
     url = "http://2captcha.com/in.php"
-    data = {"key": "46f989bbda665e16b138119bd15c140e",
+    data = {"key": key,
             "method": "userrecaptcha",
-            "googlekey": "6LefJa0UAAAAAOB06AdDI0L7krmqGle-gdob4WDw",
+            "googlekey": googlekey,
             "pageurl": pageurl,
             "version": "v3",
             "action": 'verify',
@@ -63,11 +87,13 @@ def get2captchaid():
 
 @app.route('/get2captcharesult', methods=['POST'])
 def get2captcharesult():
+    #  key 46f989bbda665e16b138119bd15c140e
     data = request.values
     taskid = data.get('taskid', '')
+    key = data.get('key', '')
     url = "http://2captcha.com/res.php"
     data = {
-        "key": "46f989bbda665e16b138119bd15c140e",
+        "key": key,
         "action": 'get',
         "taskinfo": 1,
         "json": 1,
