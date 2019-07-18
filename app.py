@@ -83,8 +83,9 @@ def get2captchaid():
             "action": 'verify',
             "min_score": min_score
             }
+    logging.info("capcha{}".format(str(data)))
     res = requests.post(url=url, data=data).text.split("|")[1]
-    logging.info("ANTItoken{}".format(str(res)))
+    logging.info("capcha{}".format(str(res)))
     return jsonify(res)
 
 @app.route('/get2captcharesult', methods=['POST'])
@@ -101,8 +102,9 @@ def get2captcharesult():
         "json": 1,
         "id": taskid
     }
+    logging.info("capcha{}".format(str(data)))
     res = requests.post(url=url, data=data).json()
-    logging.info("ANTItoken{}".format(str(res)))
+    logging.info("capcha{}".format(str(res)))
     return jsonify(res)
 
 
