@@ -49,6 +49,7 @@ def getantitoken():
         "minScore": min_score,
         "pageAction": pageAction
     }}
+    logging.info("ANTIrequest{}".format(data))
     res = requests.post(url=url, data=data).json()
     logging.info("ANTItoken{}".format(str(res)))
     return jsonify(res)
