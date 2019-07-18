@@ -33,7 +33,7 @@ def antilog():
     data = request.values
     type = data.get("type", "")
     msg = data.get("msg", "")
-    logging.info("Type {0} Msg {1}".format(type, str(msg)))
+    logging.info("Type {0} Msg {1}".format(type, msg))
     return jsonify({"ok": 1})
 
 
