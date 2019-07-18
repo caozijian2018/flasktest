@@ -28,6 +28,14 @@ def gettoken():
 
     return jsonify(res)
 
+@app.route('/antilog', methods=['POST'])
+def antilog():
+    data = request.values
+    type = data.get("type", "")
+    msg = data.get("msg", "")
+    logging.info("Type {0} Msg {1}".format(type, str(msg)))
+    return jsonify({"ok": 1})
+
 
 @app.route('/getantitoken', methods=['POST'])
 def getantitoken():
