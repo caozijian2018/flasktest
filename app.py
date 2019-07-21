@@ -116,6 +116,12 @@ def get2captcharesult():
     return jsonify(res)
 
 
+@app.route('/getheader', methods=['GET'])
+def getheader():
+    head = request.headers
+
+    return str(head)
+
 if __name__ == '__main__':
     app.run()
 
