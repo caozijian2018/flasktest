@@ -1,9 +1,10 @@
 import json
-import urllib.request
-import urllib.parse
+# import urllib.request
+# import urllib.parse
 
 # google翻译
 from googletrans import Translator
+lang = "pl"
 translator = Translator()
 f = open('./before.json', 'r+')
 str_json = f.read()
@@ -11,7 +12,7 @@ str_json = f.read()
 temp = json.loads(str_json)
 # print(temp)
 for key in temp:
-    result = translator.translate(temp[key], dest='fi').text
+    result = translator.translate(temp[key].lower(), dest=lang).text
     print(result)
     temp[key] = result
     # print(key, temp[key])
